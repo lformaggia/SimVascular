@@ -8,12 +8,12 @@
 #include "svContourGroupDataInteractor.h"
 #include "svContourGroupCreate.h"
 #include "svContourModelThresholdInteractor.h"
+#include "svQmitkFunctionality.h"
 
 #include "svResliceSlider.h"
 #include "svLevelSet2DWidget.h"
 #include "svLoftParamWidget.h"
 
-#include <QmitkFunctionality.h>
 #include <QmitkSliceWidget.h>
 #include <QmitkSliderNavigatorWidget.h>
 #include <QmitkStepperAdapter.h>
@@ -40,7 +40,7 @@ namespace Ui {
 class svSeg2DEdit;
 }
 
-class svSeg2DEdit : public QmitkFunctionality
+class svSeg2DEdit : public svQmitkFunctionality
 {
     Q_OBJECT
 
@@ -126,10 +126,10 @@ public slots:
 
     void ManualContextMenuRequested();
 
-    void ManualCircleContextMenuRequested(const QPoint&);
-    void ManualEllipseContextMenuRequested(const QPoint&);
-    void ManualSplinePolyContextMenuRequested(const QPoint&);
-    void ManualPolygonContextMenuRequested(const QPoint&);
+    void ManualCircleContextMenuRequested(const QPoint &pos);
+    void ManualEllipseContextMenuRequested(const QPoint &pos);
+    void ManualSplinePolyContextMenuRequested(const QPoint &pos);
+    void ManualPolygonContextMenuRequested(const QPoint &pos);
 
     void CreateManualCircle( bool checked = false );
 
@@ -250,6 +250,7 @@ protected:
     svContourGroupCreate* m_ContourGroupCreateWidget;
 
     bool m_UpdatingGUI;
+
 };
 
 #endif // SVSEG2DEDIT_H

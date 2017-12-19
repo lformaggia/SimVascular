@@ -5,10 +5,9 @@
 #include "svModel.h"
 #include "svCapBCWidget.h"
 #include "svSplitBCWidget.h"
+#include "svQmitkFunctionality.h"
 
 #include "svModelDataInteractor.h"
-
-#include <QmitkFunctionality.h>
 
 #include <berryIBerryPreferences.h>
 
@@ -21,7 +20,7 @@ namespace Ui {
 class svSimulationView;
 }
 
-class svSimulationView : public QmitkFunctionality
+class svSimulationView : public svQmitkFunctionality
 {
     Q_OBJECT
 
@@ -209,6 +208,7 @@ private:
     QString m_ExternalMPIExecPath;
 
     bool m_ConnectionEnabled;
+
 };
 
 class svProcessHandler : public QObject

@@ -549,6 +549,18 @@ void svProjectManager::AddImage(mitk::DataStorage::Pointer dataStorage, QString 
 
 }
 
+void svProjectManager::SaveProjectAs(mitk::DataStorage::Pointer dataStorage, mitk::DataNode::Pointer projFolderNode, QString saveFilePath)
+{
+    SaveProject(dataStorage,projFolderNode);
+
+    std::string projPath;
+    projFolderNode->GetStringProperty("project path",projPath);
+
+    QString oldPath=QString::fromStdString(projPath);
+
+    DuplicateDirRecursively(oldPath, saveFilePath);
+}
+
 void svProjectManager::SaveProject(mitk::DataStorage::Pointer dataStorage, mitk::DataNode::Pointer projFolderNode)
 {
     std::vector<std::string> removeList;
@@ -952,6 +964,63 @@ void svProjectManager::RenameDataNode(mitk::DataStorage::Pointer dataStorage, mi
     {
         dir.rename(QString::fromStdString(name+extensions[i]),QString::fromStdString(newName+extensions[i]));
     }
-
-
 }
+
+void svProjectManager::DuplicateProject(mitk::DataStorage::Pointer dataStorage, mitk::DataNode::Pointer projFolderNode, QString newName)
+{
+    SaveProject(dataStorage,projFolderNode);
+
+    std::string projPath;
+    projFolderNode->GetStringProperty("project path",projPath);
+
+    QString oldPath=QString::fromStdString(projPath);
+    QDir dir(oldPath);
+    dir.cdUp();
+    QString projParentDir=dir.absolutePath();
+    QString newPath=projParentDir+"/"+newName;
+
+    if(DuplicateDirRecursively(oldPath, newPath))
+        svProjectManager::AddProject(dataStorage,newName,projParentDir,false);
+}
+
+bool svProjectManager::DuplicateDirRecursively(const QString &srcFilePath, const QString &tgtFilePath)
+{
+    QFileInfo srcFileInfo(srcFilePath);
+    if (srcFileInfo.isDir()) {
+        QDir targetDir(tgtFilePath);
+        if (targetDir.exists())
+          targetDir.cdUp();
+        else
+        {
+          targetDir.cdUp();
+          if (!targetDir.mkdir(QFileInfo(tgtFilePath).fileName()))
+          {
+              return false;
+          }
+        }
+        QDir sourceDir(srcFilePath);
+        QStringList fileNames = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
+        foreach (const QString &fileName, fileNames) {
+            const QString newSrcFilePath
+                    = srcFilePath + QLatin1Char('/') + fileName;
+            const QString newTgtFilePath
+                    = tgtFilePath + QLatin1Char('/') + fileName;
+            if (!DuplicateDirRecursively(newSrcFilePath, newTgtFilePath))
+            {
+                return false;
+            }
+        }
+    } else {
+
+        QFile targetFile(tgtFilePath);
+        if (targetFile.exists())
+          targetFile.remove();
+
+        if (!QFile::copy(srcFilePath, tgtFilePath))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+

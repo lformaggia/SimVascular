@@ -61,7 +61,8 @@ HDRS	= \
     svFaceListDelegate.h \
     svModelFaceInfoExportAction.h \
     svModelingPluginActivator.h \
-    svLoftingPreferencePage.h
+    svLoftingPreferencePage.h \
+    svCapSelectionWidget.h
 
 CXXSRCS	= \
     svModelCreate.cxx \
@@ -74,12 +75,14 @@ CXXSRCS	= \
     svFaceListDelegate.cxx \
     svModelFaceInfoExportAction.cxx \
     svModelingPluginActivator.cxx \
-    svLoftingPreferencePage.cxx
+    svLoftingPreferencePage.cxx \
+    svCapSelectionWidget.cxx
 
 UIFILES =  \
     svModelCreate.ui \
     svSegSelectionWidget.ui \
-    svModelEdit.ui
+    svModelEdit.ui \
+    svCapSelectionWidget.ui
 
 QRCFILES =  ../../resources/modeling.qrc
 
@@ -100,6 +103,7 @@ DLLSRCS =
 DLLLIBS += $(PYTHON_LIB) $(VTK_LIBS) $(ITK_LIBS) $(QT_LIBS) $(MITK_LIBS)
 
 DLLLIBS +=  \
+          $(SVLIBFLAG)$(SV_PLUGIN_DATAMANAGER_NAME)$(LIBLINKEXT) \
           $(SVLIBFLAG)$(SV_LIB_MODULE_COMMON_NAME)$(LIBLINKEXT) \
           $(SVLIBFLAG)$(SV_LIB_MODULE_MODEL_NAME)$(LIBLINKEXT) \
           $(SVLIBFLAG)$(SV_LIB_MODULE_SEGMENTATION_NAME)$(LIBLINKEXT) \
@@ -132,7 +136,7 @@ ifeq ($(SV_USE_OPENCASCADE_QT_GUI),1)
     DLLLIBS += $(OPENCASCADE_LIBS)
 endif
 
-EXTRA_MOC_INCDIRS = $(MITK_PLUGIN_INCDIRS)
+EXTRA_MOC_INCDIRS = $(MITK_PLUGIN_INCDIRS) -I../../../org.sv.gui.qt.datamanager/src/internal
 
 TARGET_LIB_NAME = $(SV_PLUGIN_MODELING_NAME)
 

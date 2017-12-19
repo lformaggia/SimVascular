@@ -7,6 +7,7 @@
 #include "svMeshLegacyIO.h"
 #include "svSimulationUtils.h"
 
+#include <QmitkStdMultiWidgetEditor.h>
 #include <mitkNodePredicateDataType.h>
 #include <mitkUndoController.h>
 #include <mitkSliceNavigationController.h>
@@ -30,6 +31,9 @@
 #include <QFileDialog>
 #include <QThread>
 #include <QSettings>
+#include <QScrollArea>
+#include <QVBoxLayout>
+#include <QApplication>
 
 const QString svSimulationView::EXTENSION_ID = "org.sv.views.simulation";
 

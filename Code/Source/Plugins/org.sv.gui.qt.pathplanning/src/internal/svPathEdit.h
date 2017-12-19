@@ -6,8 +6,8 @@
 #include "svPath.h"
 #include "svPathDataInteractor.h"
 #include "svPathCreate.h"
+#include "svQmitkFunctionality.h"
 
-#include <QmitkFunctionality.h>
 #include <QmitkStdMultiWidget.h>
 
 #include <mitkDataStorage.h>
@@ -19,7 +19,7 @@ namespace Ui {
   class svPathEdit;
 }
 
-class svPathEdit : public QmitkFunctionality
+class svPathEdit : public svQmitkFunctionality
 {
     Q_OBJECT
 
@@ -128,7 +128,6 @@ protected:
     QmitkStdMultiWidget* m_DisplayWidget;
 
     bool m_UpdatingGUI;
-
 };
 
 #endif // SVPATHEDIT_H

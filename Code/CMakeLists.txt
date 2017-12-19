@@ -269,6 +269,7 @@ if(SV_USE_QT_GUI)
   if(NOT SV_USE_MITK_CONFIG)
     set(SV_PLUGIN_DIRS ${SV_PLUGIN_DIRS}
       "Source/Plugins/org.sv.projectdatanodes"
+      "Source/Plugins/org.sv.gui.qt.datamanager"
       "Source/Plugins/org.sv.gui.qt.projectmanager"
       "Source/Plugins/org.sv.gui.qt.pathplanning"
       "Source/Plugins/org.sv.gui.qt.segmentation"
@@ -396,6 +397,9 @@ foreach(dir ${SV_PLUGIN_DIRS})
   message(STATUS "	${dir}")
   include_directories("${dir}")
   add_subdirectory("${dir}")
+  get_filename_component(plugin_dir_name ${dir} NAME)
+  string(REPLACE "." "_" plugin_name ${plugin_dir_name})
+  list(APPEND SV_PLUGIN_NAMES ${plugin_name})
 endforeach()
 #-----------------------------------------------------------------------------
 
